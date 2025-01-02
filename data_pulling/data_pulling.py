@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 class data_puller:
     def __init__(self, query: str):
         self.query = query
-        self.output_file_save_tag = True
+        self.output_file_save_tag = False
         self.completed_search_df = None
         self.current_search_df = None
 
