@@ -5,11 +5,21 @@ from bs4 import BeautifulSoup
 
 
 class data_puller:
-    def __init__(self, query: str):
+    def __init__(
+        self,
+        query: str,
+        box: str = "Yes",
+        papers: str = "Yes",
+        movement: str = "Mechanical",
+    ):
         self.query = query
         self.output_file_save_tag = False
         self.completed_search_df = None
         self.current_search_df = None
+        self.box = "Yes"
+        self.papers = "Yes"
+        self.movement = "Mechanical"
+        self.movements = ["Quartz", "Mechanical"]
 
     def search_current_listings(self) -> None:
         url = f"https://www.ebay.co.uk/sch/i.html?_nkw={self.query}&_sacat=0&_from=R40&_trksid=p4432023.m570.l1313"
@@ -28,10 +38,13 @@ class data_puller:
         self.current_search_df = df
 
     def search_completed_listings(self) -> None:
-        url = f"https://www.ebay.co.uk/sch/i.html?_fsrp=1&rt=nc&_from=R40&_nkw={self.query}&_sacat=0&LH_Sold=1"
+        url = f"https://www.ebay.co.uk/sch/i.html?_oaa=1&_dcat=31387&_fsrp=1&rt=nc&_from=R40&Movement={self.movement}&LH_Complete=1&LH_ItemCondition=4&LH_Sold=1&_nkw={self.query}&_sacat=0&Year%2520Manufactured=2020%252DNow&With%2520Manual%252FBooklet={self.papers}&With%2520Original%2520Box%252FPackaging={self.box}"
         raw_output = self.make_soup(url)
         parsed_output = self.completed_search_parse(raw_output)
-        df = pd.DataFrame(parsed_output, columns=["title", "price", "link"])
+        df = pd.DataFrame(
+            parsed_output,
+            columns=["title", "price", "link", "box", "papers", "movement"],
+        )
 
         if self.output_file_save_tag:
             print("Saving to output.xml...", end="")
@@ -64,6 +77,9 @@ class data_puller:
                     title.getText(strip=True),
                     prices[idx].getText(strip=True),
                     links[idx]["href"],
+                    self.box,
+                    self.papers,
+                    self.movement,
                 ]
             )
 
@@ -79,4 +95,4 @@ class data_puller:
 
 if __name__ == "__main__":
     dp = data_puller("Tag Huer Formula 1")
-    dp.search_current_listings()
+    dp.search_completed_listings()

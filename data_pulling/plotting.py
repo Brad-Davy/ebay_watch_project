@@ -58,5 +58,5 @@ class data_plotter(data_puller):
         plt.show()
 
 
-data_plotter("Tag Huer Formula One").bar_chart()
+data_plotter("TAG Heuer Formula 1 Grey Men's Watch").plot_completed_listings()
 # Print text in different colors
