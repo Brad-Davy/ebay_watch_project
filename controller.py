@@ -3,13 +3,7 @@ from sql.database_IO import db_io
 from datetime import datetime
 
 
-dpuller = data_puller("Tag Heuer Formula 1")
 db = db_io()
-
-dpuller.search_completed_listings()
-
-number_of_collumns = len(dpuller.completed_search_df["title"])
-todays_date = datetime.today().strftime("%Y-%m-%d")
 
 
 def convert_to_float(value: str) -> float:
@@ -20,7 +14,7 @@ def convert_to_float(value: str) -> float:
         return 0.0
 
 
-def add_watches(query: str) -> None:
+def add_watches_to_research_table(query: str) -> None:
     for i in range(number_of_collumns):
         db.insert_into_research_table(
             (
@@ -36,5 +30,15 @@ def add_watches(query: str) -> None:
         )
 
 
-prices = db.execute_query("SELECT price FROM watch_research_table;")
-print(float(prices[0][0]))
+data = (
+    "Tag Huer",
+    "Formula 1",
+    "Automatic",
+    "Bought",
+    570,
+    "Yes",
+    "No",
+    "2021",
+    "01-01-2025",
+)
+db.insert_into_sales_table(data)

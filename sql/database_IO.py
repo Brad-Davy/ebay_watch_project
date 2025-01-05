@@ -9,7 +9,7 @@ class db_io:
         self.username = "sa"
         self.password = "GreenHorses?!"
 
-    def connect_to_database(self):
+    def _connect_to_database(self):
         try:
             conn = pymssql.connect(
                 server=self.server,
@@ -26,7 +26,7 @@ class db_io:
             print("Error:", e)
 
     def insert_into_research_table(self, data: tuple) -> None:
-        conn = self.connect_to_database()
+        conn = self._connect_to_database()
         cursor = conn.cursor()
         insert_query = """
         INSERT INTO watch_research_table (title, price, link, box, papers, watch_creation_date, date_added, movement)
@@ -37,10 +37,10 @@ class db_io:
         print("Data inserted successfully!")
 
     def insert_into_sales_table(self, data: tuple) -> None:
-        conn = self.connect_to_database()
+        conn = self._connect_to_database()
         cursor = conn.cursor()
         insert_query = """
-        INSERT INTO watch_sales_table (brand_name, model, buy_price, sell_price, box, papers, watch_creation_date, buy_date, sold_date)
+        INSERT INTO watch_sales_table (brand_name, model, movement, action, price, box, papers, watch_creation_date, action_date)
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);
         """
         cursor.execute(insert_query, data)
@@ -48,7 +48,7 @@ class db_io:
         print("Data inserted successfully!")
 
     def read_from_research_table(self) -> list[tuple]:
-        conn = self.connect_to_database()
+        conn = self._connect_to_database()
         cursor = conn.cursor()
         read_query = """
         SELECT * FROM watch_research_table;
@@ -59,8 +59,20 @@ class db_io:
         print(f"Read {len(data)} rows read from the database.")
         return data
 
+    def read_from_sales_table(self) -> list[tuple]:
+        conn = self._connect_to_database()
+        cursor = conn.cursor()
+        read_query = """
+        SELECT * FROM watch_sales_table;
+        """
+        cursor.execute(read_query)
+        data = cursor.fetchall()
+        conn.close()
+        print(f"Read {len(data)} rows read from the database.")
+        return data
+
     def execute_query(self, query: str) -> list[tuple]:
-        conn = self.connect_to_database()
+        conn = self._connect_to_database()
         cursor = conn.cursor()
         cursor.execute(query)
         data = cursor.fetchall()
@@ -71,16 +83,5 @@ class db_io:
 
 if __name__ == "__main__":
     db = db_io()
-    db.insert_into_research_table(
-        (
-            "Rolex",
-            "Submariner",
-            10000,
-            "www.example.com",
-            1,
-            1,
-            "2021-01-01",
-            "2021-01-01",
-        )
-    )
     db.read_from_research_table()
+    db.read_from_sales_table()

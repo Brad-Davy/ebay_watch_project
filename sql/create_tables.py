@@ -32,15 +32,15 @@ create_research_table_query = """
 
 create_sales_table_query = """
     CREATE TABLE watch_sales_table (
-        brand_name NVARCHAR(50),
-        model NVARCHAR(50),
-        buy_price DECIMAL(10, 2),
-        sell_price DECIMAL(10, 2),
-        box BIT,
-        papers BIT,
+        brand_name NVARCHAR(100),
+        model NVARCHAR(100),
+        movement NVARCHAR(20),
+        action NVARCHAR(10),
+        price DECIMAL(10, 2),
+        box NVARCHAR(3),
+        papers NVARCHAR(3),
         watch_creation_date DATE,
-        buy_date DATE,
-        sold_date DATE
+        action_date DATE,
                 );
 """
 

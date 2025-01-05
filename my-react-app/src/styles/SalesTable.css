@@ -1,0 +1,25 @@
+.sales-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.sales-table th,
+.sales-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.sales-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.sales-table tr.buy {
+    background-color: red;
+    color: white;
+}
+
+.sales-table tr.sell {
+    background-color: green;
+    color: white;
+}

@@ -3,5 +3,6 @@ matplotlib
 numpy
 flask
 requests
-
 pandas
+beautifulsoup4
+flask-cors
