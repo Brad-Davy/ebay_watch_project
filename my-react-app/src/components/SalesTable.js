@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './SalesTable.css';
+import InsertIntoDataBase from './InsertIntoDataBase';
 
 const SalesTable = () => {
     const [salesData, setSalesData] = useState([]);
@@ -31,7 +32,6 @@ const SalesTable = () => {
 
     const thTdStyles = {
         padding: '12px',
-        backgroundColor: '#b2e3aa',
         borderBottom: '1px solid #ddd'
     };
 
@@ -41,6 +41,10 @@ const SalesTable = () => {
 
     const trHoverStyles = {
         backgroundColor: '#f5f5f5'
+    };
+
+    const buyStyles = {
+        backgroundColor: '#ffcccc'
     };
 
     const h1Styles = {
@@ -77,22 +81,29 @@ const SalesTable = () => {
                         </tr>
                     ) : (
                         salesData.map((sale, index) => (
-                            <tr key={index} className={sale.type === 'buy' ? 'buy' : 'sell'} style={trHoverStyles}>
-                                <td style={thTdStyles}>{salesData[0][0]}</td>
-                                <td style={thTdStyles}>{salesData[0][1]}</td>
-                                <td style={thTdStyles}>{salesData[0][2]}</td>
-                                <td style={thTdStyles}>{salesData[0][3]}</td>
-                                <td style={thTdStyles}>{salesData[0][4]}</td>
-                                <td style={thTdStyles}>{salesData[0][5]}</td>
-                                <td style={thTdStyles}>{salesData[0][6]}</td>
-                                <td style={thTdStyles}>{salesData[0][7]}</td>
-                                <td style={thTdStyles}>{salesData[0][8]}</td>
+                            <tr
+                                key={index}
+                                style={{
+                                    ...thTdStyles,
+                                    backgroundColor: salesData[index][3] === 'sell' ? '#b2e3aa' : '#c97575'
+                                }}
+                            >
+                                <td style={thTdStyles}>{salesData[index][0]}</td>
+                                <td style={thTdStyles}>{salesData[index][1]}</td>
+                                <td style={thTdStyles}>{salesData[index][2]}</td>
+                                <td style={thTdStyles}>{salesData[index][3]}</td>
+                                <td style={thTdStyles}>{salesData[index][4]}</td>
+                                <td style={thTdStyles}>{salesData[index][5]}</td>
+                                <td style={thTdStyles}>{salesData[index][6]}</td>
+                                <td style={thTdStyles}>{salesData[index][7]}</td>
+                                <td style={thTdStyles}>{salesData[index][8]}</td>
                             </tr>
                         ))
                     )}
                 </tbody>
             </table>
-        </div>
+            <InsertIntoDataBase />
+        </div >
     );
 };
 
